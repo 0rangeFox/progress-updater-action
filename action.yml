@@ -22,7 +22,11 @@ outputs:
   totalFilesWithExtensionAndVerification:
     description: 'Get amount of all files with the extension and verification chosen found on directory.'
   progress:
-    description: 'Get the progress.'
+    description: 'Get the progress with precision.'
+  progressRounded:
+    description: 'Get the progress rounded with 2 decimals.'
+  progressInteger:
+    description: 'Get the progress without decimals.'
 runs:
   using: 'node12'
   main: 'dist/index.js'
