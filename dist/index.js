@@ -3,6 +3,47 @@ require('./sourcemap-register.js');module.exports =
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
+/***/ 517:
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.getAllFiles = void 0;
+const fs_1 = __importDefault(__webpack_require__(747));
+const path_1 = __importDefault(__webpack_require__(622));
+function getAllFiles(dirPath, files = []) {
+    return __awaiter(this, void 0, void 0, function* () {
+        return new Promise((resolve) => __awaiter(this, void 0, void 0, function* () {
+            files = files || [];
+            for (const file of fs_1.default.readdirSync(dirPath)) {
+                if (fs_1.default.statSync(dirPath + "/" + file).isDirectory()) {
+                    files = yield getAllFiles(dirPath + "/" + file, files);
+                }
+                else {
+                    files.push(path_1.default.join(__dirname, dirPath, "/", file));
+                }
+            }
+            resolve(files);
+        }));
+    });
+}
+exports.getAllFiles = getAllFiles;
+
+
+/***/ }),
+
 /***/ 109:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
@@ -40,6 +81,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const core = __importStar(__webpack_require__(186));
+const fileUtil_1 = __webpack_require__(517);
 const fs_1 = __importDefault(__webpack_require__(747));
 const path_1 = __importDefault(__webpack_require__(622));
 const util_1 = __importDefault(__webpack_require__(669));
@@ -52,9 +94,8 @@ function run() {
             core.info(`Folder path: ${folderPath}`);
             core.info(`File extension: ${fileExtension}`);
             core.info(`Verification message: ${verificationMessage}`);
-            const readFiles = util_1.default.promisify(fs_1.default.readdir);
             const readFile = util_1.default.promisify(fs_1.default.readFile);
-            const filesFromPath = yield readFiles(folderPath);
+            const filesFromPath = yield fileUtil_1.getAllFiles(folderPath);
             const filesWithExtensionChosen = filesFromPath.filter(file => path_1.default.extname(file) === fileExtension);
             let filesWithVerificationMessageCounter = 0;
             core.info(`Found ${filesFromPath.length} files on directory (recursively) and ${filesWithExtensionChosen.length} files with extension chosen.`);
