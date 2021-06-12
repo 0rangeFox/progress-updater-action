@@ -1,17 +1,17 @@
-## ${ PROGRESS-UPDATER-REPOSITORY } (${ PROGRESS-UPDATER-BRANCH }) - Progress Updater
+## progress-updater-action (progress-updater-action) - Progress Updater
 
 Variables: <br />
-Path: ${ PROGRESS-UPDATER-PATH } <br />
-Extension: ${ PROGRESS-UPDATER-EXTENSION } <br />
-Verification Message: ${ PROGRESS-UPDATER-VERIFICATION }
+Path: . <br />
+Extension: .txt <br />
+Verification Message: @actions/core
 
 ---
 
 Results: <br />
-Total files: ${ PROGRESS-UPDATER-TOTALFILES } <br />
-Total files with extension found: ${ PROGRESS-UPDATER-TOTALFILESWITHEXTENSION } <br />
-Total files with extension and verification found: ${ PROGRESS-UPDATER-TOTALFILESWITHEXTENSIONANDVERIFICATION }
+Total files: 71 <br />
+Total files with extension found: 1 <br />
+Total files with extension and verification found: 1
 
-Progress: ${ PROGRESS-UPDATER-PROGRESS }% <br />
-Progress Rounded: ${ PROGRESS-UPDATER-PROGRESSROUNDED }% <br />
-Progress Integer: ${ PROGRESS-UPDATER-PROGRESSINTEGER }%
+Progress: 100% <br />
+Progress Rounded: 1% <br />
+Progress Integer: 100%
