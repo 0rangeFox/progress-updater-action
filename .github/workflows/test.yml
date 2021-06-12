@@ -23,5 +23,6 @@ jobs:
           path: '.'
           extension: '.txt'
           verification: '@actions/core'
+          readmeUpdate: 'true'
       - name: Progress
         run: echo "${{ steps.progress-updater-action.outputs.totalFilesWithExtensionAndVerification }}/${{ steps.progress-updater-action.outputs.totalFilesWithExtension }} (${{ steps.progress-updater-action.outputs.progress }}%)"
