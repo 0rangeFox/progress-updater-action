@@ -49,16 +49,21 @@ function run() {
             const folderPath = core.getInput('path');
             const fileExtension = core.getInput('extension');
             const verificationMessage = core.getInput('verification');
+            core.info(`Folder path: ${folderPath}`);
+            core.info(`File extension: ${fileExtension}`);
+            core.info(`Verification message: ${verificationMessage}`);
             const readFiles = util_1.default.promisify(fs_1.default.readdir);
             const readFile = util_1.default.promisify(fs_1.default.readFile);
             const filesFromPath = yield readFiles(folderPath);
             const filesWithExtensionChosen = filesFromPath.filter(file => path_1.default.extname(file) === fileExtension);
             let filesWithVerificationMessageCounter = 0;
+            core.info(`Found ${filesFromPath.length} files on directory (recursively) and ${filesWithExtensionChosen.length} files with extension chosen.`);
             for (const filePath of filesWithExtensionChosen) {
                 const fileContents = yield readFile(filePath);
                 if (fileContents.includes(verificationMessage))
                     filesWithVerificationMessageCounter++;
             }
+            core.info(`Found ${filesWithVerificationMessageCounter} files with extension and verification message.`);
             core.setOutput('totalFiles', filesFromPath.length);
             core.setOutput('totalFilesWithExtension', filesWithExtensionChosen.length);
             core.setOutput('totalFilesWithExtensionAndVerification', filesWithVerificationMessageCounter);
