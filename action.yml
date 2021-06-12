@@ -5,7 +5,7 @@ inputs:
   path:
     required: true
     description: 'The directory to fetch the files'
-    default: '.'
+    default: './src/'
   extension:
     required: true
     description: 'The valid extension for the verification'

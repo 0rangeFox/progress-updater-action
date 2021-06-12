@@ -7,25 +7,6 @@ require('./sourcemap-register.js');module.exports =
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
-}) : function(o, v) {
-    o["default"] = v;
-});
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-    __setModuleDefault(result, mod);
-    return result;
-};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -40,12 +21,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.getAllFiles = void 0;
-const core = __importStar(__webpack_require__(186));
 const fs_1 = __importDefault(__webpack_require__(747));
 const path_1 = __importDefault(__webpack_require__(622));
 function getAllFiles(dirPath, files = []) {
     return __awaiter(this, void 0, void 0, function* () {
-        core.info(`Dir Path: ${dirPath}`);
         return new Promise((resolve) => __awaiter(this, void 0, void 0, function* () {
             files = files || [];
             for (const filePath of fs_1.default.readdirSync(dirPath)) {
@@ -54,7 +33,6 @@ function getAllFiles(dirPath, files = []) {
                 }
                 else {
                     files.push(path_1.default.join(dirPath, "/", filePath));
-                    core.info(`File Path: ${filePath}`);
                 }
             }
             resolve(files);
@@ -121,8 +99,6 @@ function run() {
             const filesWithExtensionChosen = filesFromPath.filter(file => path_1.default.extname(file) === fileExtension);
             let filesWithVerificationMessageCounter = 0;
             core.info(`Found ${filesFromPath.length} files on directory (recursively) and ${filesWithExtensionChosen.length} files with extension chosen.`);
-            core.info(`Dirname: ${__dirname}`);
-            core.info(`Dirname join: ${path_1.default.join(__dirname, dirPath, "/")}`);
             for (const filePath of filesWithExtensionChosen) {
                 core.info(`Checking the file from path: ${filePath}`);
                 const fileContents = yield readFile(filePath);

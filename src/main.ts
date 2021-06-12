@@ -23,9 +23,6 @@ async function run(): Promise<void> {
 
     core.info(`Found ${filesFromPath.length} files on directory (recursively) and ${filesWithExtensionChosen.length} files with extension chosen.`)
 
-    core.info(`Dirname: ${__dirname}`)
-    core.info(`Dirname join: ${path.join(__dirname, dirPath, "/")}`)
-
     for (const filePath of filesWithExtensionChosen) {
       core.info(`Checking the file from path: ${filePath}`)
 
