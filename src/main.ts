@@ -9,6 +9,10 @@ async function run(): Promise<void> {
     const fileExtension = core.getInput('extension')
     const verificationMessage = core.getInput('verification')
 
+    core.info(`Folder path: ${folderPath}`)
+    core.info(`File extension: ${fileExtension}`)
+    core.info(`Verification message: ${verificationMessage}`)
+
     const readFiles = util.promisify(fs.readdir)
     const readFile = util.promisify(fs.readFile)
 
@@ -16,12 +20,16 @@ async function run(): Promise<void> {
     const filesWithExtensionChosen = filesFromPath.filter(file => path.extname(file) === fileExtension)
     let filesWithVerificationMessageCounter = 0
 
+    core.info(`Found ${filesFromPath.length} files on directory (recursively) and ${filesWithExtensionChosen.length} files with extension chosen.`)
+
     for (const filePath of filesWithExtensionChosen) {
       const fileContents = await readFile(filePath)
 
       if (fileContents.includes(verificationMessage))
         filesWithVerificationMessageCounter++
     }
+
+    core.info(`Found ${filesWithVerificationMessageCounter} files with extension and verification message.`)
 
     core.setOutput('totalFiles', filesFromPath.length)
     core.setOutput('totalFilesWithExtension', filesWithExtensionChosen.length)
