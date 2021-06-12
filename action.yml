@@ -28,20 +28,20 @@ inputs:
     default: |
       ## ${ PROGRESS-UPDATER-REPOSITORY } (${ PROGRESS-UPDATER-BRANCH }) - Progress Updater
 
-      Variables:
-      Path: ${ PROGRESS-UPDATER-PATH }
-      Extension: ${ PROGRESS-UPDATER-EXTENSION }
+      Variables: <br />
+      Path: ${ PROGRESS-UPDATER-PATH } <br />
+      Extension: ${ PROGRESS-UPDATER-EXTENSION } <br />
       Verification Message: ${ PROGRESS-UPDATER-VERIFICATION }
 
       ---
 
-      Results:
-      Total files: ${ PROGRESS-UPDATER-TOTALFILES }
-      Total files with extension found: ${ PROGRESS-UPDATER-TOTALFILESWITHEXTENSION }
+      Results: <br />
+      Total files: ${ PROGRESS-UPDATER-TOTALFILES } <br />
+      Total files with extension found: ${ PROGRESS-UPDATER-TOTALFILESWITHEXTENSION } <br />
       Total files with extension and verification found: ${ PROGRESS-UPDATER-TOTALFILESWITHEXTENSIONANDVERIFICATION }
 
-      Progress: ${ PROGRESS-UPDATER-PROGRESS }%
-      Progress Rounded: ${ PROGRESS-UPDATER-PROGRESSROUNDED }%
+      Progress: ${ PROGRESS-UPDATER-PROGRESS }% <br />
+      Progress Rounded: ${ PROGRESS-UPDATER-PROGRESSROUNDED }% <br />
       Progress Integer: ${ PROGRESS-UPDATER-PROGRESSINTEGER }%
 outputs:
   totalFiles:
