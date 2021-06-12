@@ -26,23 +26,23 @@ inputs:
     required: false
     description: 'Customize the README.md and Markdown is supported.'
     default: |
-      ## ${ PROGRESS-UPDATER-REPOSITORY } (${ PROGRESS-UPDATER-BRANCH }) - Progress Updater
+      ## ${REPOSITORY} (${BRANCH}) - Progress Updater
 
       Variables: <br />
-      Path: ${ PROGRESS-UPDATER-PATH } <br />
-      Extension: ${ PROGRESS-UPDATER-EXTENSION } <br />
-      Verification Message: ${ PROGRESS-UPDATER-VERIFICATION }
+      Path: ${PATH} <br />
+      Extension: ${EXTENSION} <br />
+      Verification Message: ${VERIFICATION}
 
       ---
 
       Results: <br />
-      Total files: ${ PROGRESS-UPDATER-TOTALFILES } <br />
-      Total files with extension found: ${ PROGRESS-UPDATER-TOTALFILESWITHEXTENSION } <br />
-      Total files with extension and verification found: ${ PROGRESS-UPDATER-TOTALFILESWITHEXTENSIONANDVERIFICATION }
+      Total files: ${TOTALFILES} <br />
+      Total files with extension found: ${TOTALFILESWITHEXTENSION} <br />
+      Total files with extension and verification found: ${TOTALFILESWITHEXTENSIONANDVERIFICATION}
 
-      Progress: ${ PROGRESS-UPDATER-PROGRESS }% <br />
-      Progress Rounded: ${ PROGRESS-UPDATER-PROGRESSROUNDED }% <br />
-      Progress Integer: ${ PROGRESS-UPDATER-PROGRESSINTEGER }%
+      Progress: ${PROGRESS}% <br />
+      Progress Rounded: ${PROGRESSROUNDED}% <br />
+      Progress Integer: ${PROGRESSINTEGER}%
 outputs:
   totalFiles:
     description: 'Get amount of all files found on directory.'

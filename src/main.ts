@@ -37,16 +37,25 @@ async function run(): Promise<void> {
     }
 
     const progress = (filesWithVerificationMessageCounter / filesWithExtensionChosen.length) * 100;
-    core.info(`Found ${filesWithVerificationMessageCounter} files with extension and verification message.`)
+    const results : any[6] = [
+      filesFromPath.length,
+      filesWithExtensionChosen.length,
+      filesWithVerificationMessageCounter,
+      progress,
+      Math.round(progress) / 100,
+      Math.floor(progress)
+    ]
 
-    core.setOutput('totalFiles', filesFromPath.length)
-    core.setOutput('totalFilesWithExtension', filesWithExtensionChosen.length)
-    core.setOutput('totalFilesWithExtensionAndVerification', filesWithVerificationMessageCounter)
-    core.setOutput('progress', progress)
-    core.setOutput('progressRounded', Math.round(progress) / 100)
-    core.setOutput('progressInteger', Math.floor(progress))
+    core.info(`Found ${results[2]} files with extension and verification message.`)
 
-    await getRepositoryDetails()
+    await getRepositoryDetails(results)
+
+    core.setOutput('totalFiles', results[0])
+    core.setOutput('totalFilesWithExtension', results[1])
+    core.setOutput('totalFilesWithExtensionAndVerification', results[2])
+    core.setOutput('progress', results[3])
+    core.setOutput('progressRounded', results[4])
+    core.setOutput('progressInteger', results[5])
   } catch (error) {
     core.setFailed(error.message)
   }
