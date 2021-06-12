@@ -14,6 +14,15 @@ inputs:
     required: true
     description: 'The verification message to see if the file is already developed'
     default: '// ### Progress-Updater ###'
+outputs:
+  totalFiles:
+    description: 'Get amount of all files found on directory.'
+  totalFilesWithExtension:
+    description: 'Get amount of all files with the extension chosen found on directory.'
+  totalFilesWithExtensionAndVerification:
+    description: 'Get amount of all files with the extension and verification chosen found on directory.'
+  progress:
+    description: 'Get the progress.'
 runs:
   using: 'node12'
   main: 'dist/index.js'
