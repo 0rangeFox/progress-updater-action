@@ -4,7 +4,7 @@ import path from 'path'
 import util from 'util'
 
 import { getAllFilesFromDirectory } from './fileUtil'
-import { getRepositoryDetails } from "./readmeUtil";
+import { updateReadme } from "./readmeUtil";
 
 async function run(): Promise<void> {
   try {
@@ -48,7 +48,8 @@ async function run(): Promise<void> {
 
     core.info(`Found ${results[2]} files with extension and verification message.`)
 
-    await getRepositoryDetails(results)
+    if ((/true/i).test(core.getInput('readmeUpdate')))
+      await updateReadme(results)
 
     core.setOutput('totalFiles', results[0])
     core.setOutput('totalFilesWithExtension', results[1])

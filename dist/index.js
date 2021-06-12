@@ -119,13 +119,14 @@ function run() {
                 Math.floor(progress)
             ];
             core.info(`Found ${results[2]} files with extension and verification message.`);
+            if ((/true/i).test(core.getInput('readmeUpdate')))
+                yield readmeUtil_1.updateReadme(results);
             core.setOutput('totalFiles', results[0]);
             core.setOutput('totalFilesWithExtension', results[1]);
             core.setOutput('totalFilesWithExtensionAndVerification', results[2]);
             core.setOutput('progress', results[3]);
             core.setOutput('progressRounded', results[4]);
             core.setOutput('progressInteger', results[5]);
-            yield readmeUtil_1.getRepositoryDetails(results);
         }
         catch (error) {
             core.setFailed(error.message);
@@ -171,55 +172,61 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.getRepositoryDetails = void 0;
+exports.updateReadme = void 0;
 const core = __importStar(__nccwpck_require__(186));
 const core_1 = __nccwpck_require__(762);
 const octokit = new core_1.Octokit({ auth: process.env.GITHUB_TOKEN }).request;
-// @ts-ignore
 const githubRepositoryDetails = process.env.GITHUB_REPOSITORY.split("/");
 const githubUsername = githubRepositoryDetails[0];
 const githubRepository = githubRepositoryDetails[1];
-function getRepositoryDetails(results) {
+function getRepositorySHA() {
+    return __awaiter(this, void 0, void 0, function* () {
+        const repositoryDetails = yield octokit('GET /repos/{owner}/{repo}/contents/{path}', {
+            owner: githubUsername,
+            repo: githubRepository,
+            path: core.getInput('readmePath')
+        }).catch(error => core.setFailed(`Failed:\n${error.message}`));
+        // @ts-ignore
+        return repositoryDetails.data.sha;
+    });
+}
+function generateReadmeContents(results) {
+    return Buffer.from(core.getInput("readmeContents").replace(/\${\w*}/g, match => {
+        switch (match.toLowerCase()) {
+            case "${Repository}".toLowerCase(): return githubRepository;
+            case "${Branch}".toLowerCase(): return githubRepository;
+            case "${Path}".toLowerCase(): return core.getInput('path');
+            case "${Extension}".toLowerCase(): return core.getInput('extension');
+            case "${Verification}".toLowerCase(): return core.getInput('verification');
+            case "${TotalFiles}".toLowerCase(): return results[0];
+            case "${TotalFilesWithExtension}".toLowerCase(): return results[1];
+            case "${TotalFilesWithExtensionAndVerification}".toLowerCase(): return results[2];
+            case "${Progress}".toLowerCase(): return results[3];
+            case "${ProgressRounded}".toLowerCase(): return results[4];
+            case "${ProgressInteger}".toLowerCase(): return results[5];
+            default:
+                core.info(`Readme contents - Variable ${match} is not recognised.`);
+                return '';
+        }
+    }), 'utf8').toString('base64');
+}
+function updateReadme(results) {
     return __awaiter(this, void 0, void 0, function* () {
         return new Promise((resolve) => __awaiter(this, void 0, void 0, function* () {
-            const repositoryDetails = yield octokit('GET /repos/{owner}/{repo}/contents/{path}', {
-                owner: githubUsername,
-                repo: githubRepository,
-                path: core.getInput('readmePath')
-            }).catch(error => core.setFailed(`Failed:\n${error.message}`));
-            // @ts-ignore
-            const sha = repositoryDetails === null || repositoryDetails === void 0 ? void 0 : repositoryDetails.data.sha;
-            const contents = core.getInput("readmeContents").replace(/\${\w*}/g, match => {
-                switch (match.toLowerCase()) {
-                    case "${Repository}".toLowerCase(): return githubRepository;
-                    case "${Branch}".toLowerCase(): return githubRepository;
-                    case "${Path}".toLowerCase(): return core.getInput('path');
-                    case "${Extension}".toLowerCase(): return core.getInput('extension');
-                    case "${Verification}".toLowerCase(): return core.getInput('verification');
-                    case "${TotalFiles}".toLowerCase(): return results[0];
-                    case "${TotalFilesWithExtension}".toLowerCase(): return results[1];
-                    case "${TotalFilesWithExtensionAndVerification}".toLowerCase(): return results[2];
-                    case "${Progress}".toLowerCase(): return results[3];
-                    case "${ProgressRounded}".toLowerCase(): return results[4];
-                    case "${ProgressInteger}".toLowerCase(): return results[5];
-                    default:
-                        core.info(`Readme contents - Variable ${match} is not recognised.`);
-                        return '';
-                }
-            });
+            const githubRepositorySHA = yield getRepositorySHA();
             yield octokit('PUT /repos/{owner}/{repo}/contents/{path}', {
                 owner: githubUsername,
                 repo: githubRepository,
                 path: core.getInput('readmePath'),
+                sha: githubRepositorySHA,
                 message: '(Progress-Updater) Update README.md.',
-                content: Buffer.from(contents, 'utf8').toString('base64'),
-                sha,
+                content: generateReadmeContents(results),
             }).catch(error => core.setFailed(`Failed:\n${error.message}`));
             resolve();
         }));
     });
 }
-exports.getRepositoryDetails = getRepositoryDetails;
+exports.updateReadme = updateReadme;
 
 
 /***/ }),
