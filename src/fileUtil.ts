@@ -12,7 +12,7 @@ export async function getAllFiles(dirPath: string, files: string[] = []): Promis
             if (fs.statSync(dirPath + "/" + filePath).isDirectory()) {
                 files = await getAllFiles(dirPath + "/" + filePath, files)
             } else {
-                files.push(path.join(__dirname, dirPath, "/", filePath))
+                files.push(path.join(dirPath, "/", filePath))
                 core.info(`File Path: ${filePath}`)
             }
         }
