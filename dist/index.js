@@ -54,6 +54,7 @@ function getAllFiles(dirPath, files = []) {
                 }
                 else {
                     files.push(path_1.default.join(__dirname, dirPath, "/", filePath));
+                    core.info(`File Path: ${filePath}`);
                 }
             }
             resolve(files);

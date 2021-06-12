@@ -13,6 +13,7 @@ export async function getAllFiles(dirPath: string, files: string[] = []): Promis
                 files = await getAllFiles(dirPath + "/" + filePath, files)
             } else {
                 files.push(path.join(__dirname, dirPath, "/", filePath))
+                core.info(`File Path: ${filePath}`)
             }
         }
 
