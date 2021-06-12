@@ -1,7 +1,10 @@
+import * as core from '@actions/core'
 import fs from 'fs'
 import path from 'path'
 
 export async function getAllFiles(dirPath: string, files: string[] = []): Promise<string[]> {
+    core.info(`Dir Path: ${dirPath}`)
+
     return new Promise(async resolve => {
         files = files || []
 

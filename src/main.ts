@@ -1,5 +1,5 @@
 import * as core from '@actions/core'
-import {getAllFiles} from './fileUtil'
+import { getAllFiles } from './fileUtil'
 
 import fs from 'fs'
 import path from 'path'
