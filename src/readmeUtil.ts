@@ -7,6 +7,8 @@ const githubRepositoryDetails = process!.env!.GITHUB_REPOSITORY!.split("/")
 const githubUsername = githubRepositoryDetails[0]
 const githubRepository = githubRepositoryDetails[1]
 
+core.info(process!.env!.GITHUB_REPOSITORY!)
+
 async function getRepositorySHA(): Promise<string> {
     const repositoryDetails = await octokit('GET /repos/{owner}/{repo}/contents/{path}', {
         owner: githubUsername,

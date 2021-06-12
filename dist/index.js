@@ -23,7 +23,6 @@ exports.getAllFilesFromDirectory = void 0;
 const fs_1 = __importDefault(__nccwpck_require__(747));
 const path_1 = __importDefault(__nccwpck_require__(622));
 function getAllFiles(dirPath, files = []) {
-    files = files || [];
     for (const filePath of fs_1.default.readdirSync(dirPath)) {
         if (fs_1.default.statSync(dirPath + "/" + filePath).isDirectory()) {
             files = getAllFiles(dirPath + "/" + filePath, files);
@@ -179,6 +178,7 @@ const octokit = new core_1.Octokit({ auth: process.env.GITHUB_TOKEN }).request;
 const githubRepositoryDetails = process.env.GITHUB_REPOSITORY.split("/");
 const githubUsername = githubRepositoryDetails[0];
 const githubRepository = githubRepositoryDetails[1];
+core.info(process.env.GITHUB_REPOSITORY);
 function getRepositorySHA() {
     return __awaiter(this, void 0, void 0, function* () {
         const repositoryDetails = yield octokit('GET /repos/{owner}/{repo}/contents/{path}', {
