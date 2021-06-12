@@ -17,6 +17,8 @@ jobs:
       - uses: actions/checkout@v2
       - uses: ./
         id: progress-updater-action
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           path: '.'
           extension: '.txt'
