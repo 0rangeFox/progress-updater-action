@@ -7,21 +7,24 @@ import util from 'util'
 
 async function run(): Promise<void> {
   try {
-    const folderPath = core.getInput('path')
+    const dirPath = core.getInput('path')
     const fileExtension = core.getInput('extension')
     const verificationMessage = core.getInput('verification')
 
-    core.info(`Folder path: ${folderPath}`)
+    core.info(`Directory path: ${dirPath}`)
     core.info(`File extension: ${fileExtension}`)
     core.info(`Verification message: ${verificationMessage}`)
 
     const readFile = util.promisify(fs.readFile)
 
-    const filesFromPath = await getAllFiles(folderPath)
+    const filesFromPath = await getAllFiles(dirPath)
     const filesWithExtensionChosen = filesFromPath.filter(file => path.extname(file) === fileExtension)
     let filesWithVerificationMessageCounter = 0
 
     core.info(`Found ${filesFromPath.length} files on directory (recursively) and ${filesWithExtensionChosen.length} files with extension chosen.`)
+
+    core.info(`Dirname: ${__dirname}`)
+    core.info(`Dirname join: ${path.join(__dirname, dirPath, "/")}`)
 
     for (const filePath of filesWithExtensionChosen) {
       core.info(`Checking the file from path: ${filePath}`)

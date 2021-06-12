@@ -5,11 +5,11 @@ export async function getAllFiles(dirPath: string, files: string[] = []): Promis
     return new Promise(async resolve => {
         files = files || []
 
-        for (const file of fs.readdirSync(dirPath)) {
-            if (fs.statSync(dirPath + "/" + file).isDirectory()) {
-                files = await getAllFiles(dirPath + "/" + file, files)
+        for (const filePath of fs.readdirSync(dirPath)) {
+            if (fs.statSync(dirPath + "/" + filePath).isDirectory()) {
+                files = await getAllFiles(dirPath + "/" + filePath, files)
             } else {
-                files.push(path.join(__dirname, dirPath, "/", file))
+                files.push(path.join(__dirname, dirPath, "/", filePath))
             }
         }
 

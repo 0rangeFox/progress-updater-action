@@ -27,12 +27,12 @@ function getAllFiles(dirPath, files = []) {
     return __awaiter(this, void 0, void 0, function* () {
         return new Promise((resolve) => __awaiter(this, void 0, void 0, function* () {
             files = files || [];
-            for (const file of fs_1.default.readdirSync(dirPath)) {
-                if (fs_1.default.statSync(dirPath + "/" + file).isDirectory()) {
-                    files = yield getAllFiles(dirPath + "/" + file, files);
+            for (const filePath of fs_1.default.readdirSync(dirPath)) {
+                if (fs_1.default.statSync(dirPath + "/" + filePath).isDirectory()) {
+                    files = yield getAllFiles(dirPath + "/" + filePath, files);
                 }
                 else {
-                    files.push(path_1.default.join(__dirname, dirPath, "/", file));
+                    files.push(path_1.default.join(__dirname, dirPath, "/", filePath));
                 }
             }
             resolve(files);
@@ -88,17 +88,19 @@ const util_1 = __importDefault(__webpack_require__(669));
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            const folderPath = core.getInput('path');
+            const dirPath = core.getInput('path');
             const fileExtension = core.getInput('extension');
             const verificationMessage = core.getInput('verification');
-            core.info(`Folder path: ${folderPath}`);
+            core.info(`Directory path: ${dirPath}`);
             core.info(`File extension: ${fileExtension}`);
             core.info(`Verification message: ${verificationMessage}`);
             const readFile = util_1.default.promisify(fs_1.default.readFile);
-            const filesFromPath = yield fileUtil_1.getAllFiles(folderPath);
+            const filesFromPath = yield fileUtil_1.getAllFiles(dirPath);
             const filesWithExtensionChosen = filesFromPath.filter(file => path_1.default.extname(file) === fileExtension);
             let filesWithVerificationMessageCounter = 0;
             core.info(`Found ${filesFromPath.length} files on directory (recursively) and ${filesWithExtensionChosen.length} files with extension chosen.`);
+            core.info(`Dirname: ${__dirname}`);
+            core.info(`Dirname join: ${path_1.default.join(__dirname, dirPath, "/")}`);
             for (const filePath of filesWithExtensionChosen) {
                 core.info(`Checking the file from path: ${filePath}`);
                 const fileContents = yield readFile(filePath);
