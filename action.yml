@@ -26,7 +26,7 @@ inputs:
     required: false
     description: 'Customize the README.md and Markdown is supported.'
     default: |
-      ## ${{ GITHUB_REPOSITORY }} - Progress Updater
+      ## ${{ PROGRESS-UPDATER-REPOSITORY }} (${{ PROGRESS-UPDATER-BRANCH }}) - Progress Updater
 
       Variables:
       Path: ${{ PROGRESS-UPDATER-PATH }}
