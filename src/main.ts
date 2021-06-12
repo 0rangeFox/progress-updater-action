@@ -1,16 +1,31 @@
 import * as core from '@actions/core'
-import {wait} from './wait'
+import fs from 'fs'
+import path from 'path'
+import util from 'util'
 
 async function run(): Promise<void> {
   try {
-    const ms: string = core.getInput('milliseconds')
-    core.debug(`Waiting ${ms} milliseconds ...`) // debug is only output if you set the secret `ACTIONS_RUNNER_DEBUG` to true
+    const folderPath = core.getInput('path')
+    const fileExtension = core.getInput('extension')
+    const verificationMessage = core.getInput('verification')
 
-    core.debug(new Date().toTimeString())
-    await wait(parseInt(ms, 10))
-    core.debug(new Date().toTimeString())
+    const readFiles = util.promisify(fs.readdir)
+    const readFile = util.promisify(fs.readFile)
 
-    core.setOutput('time', new Date().toTimeString())
+    const filesFromPath = await readFiles(folderPath)
+    const filesWithExtensionChosen = filesFromPath.filter(file => path.extname(file) === fileExtension)
+    let filesWithVerificationMessageCounter = 0
+
+    for (const filePath of filesWithExtensionChosen) {
+      const fileContents = await readFile(filePath)
+
+      if (fileContents.includes(verificationMessage))
+        filesWithVerificationMessageCounter++
+    }
+
+    core.setOutput('totalFiles', filesFromPath.length)
+    core.setOutput('totalFilesWithExtension', filesWithExtensionChosen.length)
+    core.setOutput('totalFilesWithExtensionAndVerification', filesWithVerificationMessageCounter)
   } catch (error) {
     core.setFailed(error.message)
   }
