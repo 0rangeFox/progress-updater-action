@@ -24,10 +24,15 @@ async function run(): Promise<void> {
     core.info(`Found ${filesFromPath.length} files on directory (recursively) and ${filesWithExtensionChosen.length} files with extension chosen.`)
 
     for (const filePath of filesWithExtensionChosen) {
+      core.info(`Checking the file from path: ${filePath}`)
+
       const fileContents = await readFile(filePath)
 
-      if (fileContents.includes(verificationMessage))
+      if (fileContents.includes(verificationMessage)) {
+        core.info(`Found the file with the extension and verification chosen.`)
         filesWithVerificationMessageCounter++
+      }
+
     }
 
     core.info(`Found ${filesWithVerificationMessageCounter} files with extension and verification message.`)
