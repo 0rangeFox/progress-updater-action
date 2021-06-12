@@ -111,13 +111,13 @@ function run() {
             }
             const progress = (filesWithVerificationMessageCounter / filesWithExtensionChosen.length) * 100;
             core.info(`Found ${filesWithVerificationMessageCounter} files with extension and verification message.`);
-            yield readmeUtil_1.getRepositoryDetails();
             core.setOutput('totalFiles', filesFromPath.length);
             core.setOutput('totalFilesWithExtension', filesWithExtensionChosen.length);
             core.setOutput('totalFilesWithExtensionAndVerification', filesWithVerificationMessageCounter);
             core.setOutput('progress', progress);
             core.setOutput('progressRounded', Math.round(progress) / 100);
             core.setOutput('progressInteger', Math.floor(progress));
+            yield readmeUtil_1.getRepositoryDetails();
         }
         catch (error) {
             core.setFailed(error.message);
