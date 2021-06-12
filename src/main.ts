@@ -26,6 +26,7 @@ async function run(): Promise<void> {
     core.setOutput('totalFiles', filesFromPath.length)
     core.setOutput('totalFilesWithExtension', filesWithExtensionChosen.length)
     core.setOutput('totalFilesWithExtensionAndVerification', filesWithVerificationMessageCounter)
+    core.setOutput('progress', (filesWithVerificationMessageCounter / filesWithExtensionChosen.length) * 100)
   } catch (error) {
     core.setFailed(error.message)
   }

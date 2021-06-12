@@ -1,11 +1,19 @@
-name: 'Your name here'
-description: 'Provide a description here'
-author: 'Your name or organization here'
+name: 'Progress Updater'
+description: 'Get the development progress via a check message to see what the current progress of the project is.'
+author: '0rangeFox'
 inputs:
-  milliseconds: # change this
+  path:
     required: true
-    description: 'input description here'
-    default: 'default value if applicable'
+    description: 'The directory to fetch the files'
+    default: '.'
+  extension:
+    required: true
+    description: 'The valid extension for the verification'
+    default: '.java'
+  verification:
+    required: true
+    description: 'The verification message to see if the file is already developed'
+    default: '// ### Progress-Updater ###'
 runs:
   using: 'node12'
   main: 'dist/index.js'
