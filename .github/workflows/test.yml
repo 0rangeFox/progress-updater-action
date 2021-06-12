@@ -16,7 +16,10 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: ./
+        id: progress-updater-action
         with:
           path: '.'
           extension: '.txt'
           verification: '@actions/core'
+      - name: Progress
+        run: echo "${ steps.progress-updater-action.outputs.progress }"
