@@ -14,6 +14,35 @@ inputs:
     required: true
     description: 'The verification message to see if the file is already developed'
     default: '// ### Progress-Updater ###'
+  readmeUpdate:
+    required: false
+    description: 'Should update automatically the Readme.'
+    default: 'false'
+  readmePath:
+    required: false
+    description: 'The path where Readme is located.'
+    default: 'README.md'
+  readmeContents:
+    required: false
+    description: 'Customize the README.md and Markdown is supported.'
+    default: |
+      ## ${{ GITHUB_REPOSITORY }} - Progress Updater
+
+      Variables:
+      Path: ${{ PROGRESS-UPDATER-PATH }}
+      Extension: ${{ PROGRESS-UPDATER-EXTENSION }}
+      Verification Message: ${{ PROGRESS-UPDATER-VERIFICATION }}
+
+      ---
+
+      Results:
+      Total files: ${{ PROGRESS-UPDATER-TOTALFILES }}
+      Total files with extension found: ${{ PROGRESS-UPDATER-TOTALFILESWITHEXTENSION }}
+      Total files with extension and verification found: ${{ PROGRESS-UPDATER-TOTALFILESWITHEXTENSIONANDVERIFICATION }}
+
+      Progress: ${{ PROGRESS-UPDATER-PROGRESS }}%
+      Progress Rounded: ${{ PROGRESS-UPDATER-PROGRESSROUNDED }}%
+      Progress Integer: ${{ PROGRESS-UPDATER-PROGRESSINTEGER }}%
 outputs:
   totalFiles:
     description: 'Get amount of all files found on directory.'

@@ -1,18 +1,20 @@
 import fs from 'fs'
 import path from 'path'
 
-export async function getAllFiles(dirPath: string, files: string[] = []): Promise<string[]> {
-    return new Promise(async resolve => {
-        files = files || []
+function getAllFiles(dirPath: string, files: string[] = []): string[] {
+    files = files || []
 
-        for (const filePath of fs.readdirSync(dirPath)) {
-            if (fs.statSync(dirPath + "/" + filePath).isDirectory()) {
-                files = await getAllFiles(dirPath + "/" + filePath, files)
-            } else {
-                files.push(path.join(dirPath, "/", filePath))
-            }
+    for (const filePath of fs.readdirSync(dirPath)) {
+        if (fs.statSync(dirPath + "/" + filePath).isDirectory()) {
+            files = getAllFiles(dirPath + "/" + filePath, files)
+        } else {
+            files.push(path.join(dirPath, "/", filePath))
         }
+    }
 
-        resolve(files)
-    })
+    return files
+}
+
+export async function getAllFilesFromDirectory(path: string): Promise<string[]> {
+    return new Promise(resolve => resolve(getAllFiles(path)))
 }

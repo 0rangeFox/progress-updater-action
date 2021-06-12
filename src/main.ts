@@ -1,9 +1,10 @@
 import * as core from '@actions/core'
-import { getAllFiles } from './fileUtil'
-
 import fs from 'fs'
 import path from 'path'
 import util from 'util'
+
+import { getAllFilesFromDirectory } from './fileUtil'
+import { getRepositoryDetails } from "./readmeUtil";
 
 async function run(): Promise<void> {
   try {
@@ -17,7 +18,7 @@ async function run(): Promise<void> {
 
     const readFile = util.promisify(fs.readFile)
 
-    const filesFromPath = await getAllFiles(dirPath)
+    const filesFromPath = await getAllFilesFromDirectory(dirPath)
     const filesWithExtensionChosen = filesFromPath.filter(file => path.extname(file) === fileExtension)
     let filesWithVerificationMessageCounter = 0
 
@@ -37,6 +38,8 @@ async function run(): Promise<void> {
 
     const progress = (filesWithVerificationMessageCounter / filesWithExtensionChosen.length) * 100;
     core.info(`Found ${filesWithVerificationMessageCounter} files with extension and verification message.`)
+
+    await getRepositoryDetails()
 
     core.setOutput('totalFiles', filesFromPath.length)
     core.setOutput('totalFilesWithExtension', filesWithExtensionChosen.length)
