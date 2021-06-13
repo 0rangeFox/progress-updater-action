@@ -6,8 +6,7 @@ const octokit = new Octokit({ auth: process.env.GITHUB_TOKEN }).request
 const githubRepositoryDetails = process!.env!.GITHUB_REPOSITORY!.split("/")
 const githubUsername = githubRepositoryDetails[0]
 const githubRepository = githubRepositoryDetails[1]
-
-core.info(process!.env!.GITHUB_REPOSITORY!)
+const githubBranch = process!.env!.GITHUB_REF!.split("/")[2];
 
 async function getRepositorySHA(): Promise<string> {
     const repositoryDetails = await octokit('GET /repos/{owner}/{repo}/contents/{path}', {
@@ -24,7 +23,7 @@ function generateReadmeContents(results : any[]) : string {
     return Buffer.from(core.getInput("readmeContents").replace(/\${\w*}/g, match => {
         switch (match.toLowerCase()) {
             case "${Repository}".toLowerCase(): return githubRepository
-            case "${Branch}".toLowerCase(): return githubRepository
+            case "${Branch}".toLowerCase(): return githubBranch
             case "${Path}".toLowerCase(): return core.getInput('path')
             case "${Extension}".toLowerCase(): return core.getInput('extension')
             case "${Verification}".toLowerCase(): return core.getInput('verification')
