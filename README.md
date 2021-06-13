@@ -1,4 +1,4 @@
-## progress-updater-action (progress-updater-action) - Progress Updater
+## progress-updater-action (teste) - Progress Updater
 
 Variables: <br />
 Path: . <br />
