@@ -184,7 +184,8 @@ function getRepositorySHA() {
         const repositoryDetails = yield octokit('GET /repos/{owner}/{repo}/contents/{path}', {
             owner: githubUsername,
             repo: githubRepository,
-            path: core.getInput('readmePath')
+            path: core.getInput('readmePath'),
+            ref: githubBranch,
         }).catch(error => core.setFailed(`Failed:\n${error.message}`));
         // @ts-ignore
         return repositoryDetails.data.sha;
@@ -218,6 +219,7 @@ function updateReadme(results) {
                 owner: githubUsername,
                 repo: githubRepository,
                 path: core.getInput('readmePath'),
+                branch: githubBranch,
                 sha: githubRepositorySHA,
                 message: '(Progress-Updater) Update README.md.',
                 content: generateReadmeContents(results),

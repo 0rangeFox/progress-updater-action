@@ -12,7 +12,8 @@ async function getRepositorySHA(): Promise<string> {
     const repositoryDetails = await octokit('GET /repos/{owner}/{repo}/contents/{path}', {
         owner: githubUsername,
         repo: githubRepository,
-        path: core.getInput('readmePath')
+        path: core.getInput('readmePath'),
+        ref: githubBranch,
     }).catch(error => core.setFailed(`Failed:\n${error.message}`))
 
     // @ts-ignore
@@ -48,6 +49,7 @@ export async function updateReadme(results : any[]): Promise<void> {
             owner: githubUsername,
             repo: githubRepository,
             path: core.getInput('readmePath'),
+            branch: githubBranch,
             sha: githubRepositorySHA,
             message: '(Progress-Updater) Update README.md.',
             content: generateReadmeContents(results),
