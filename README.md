@@ -8,7 +8,7 @@ Verification Message: @actions/core
 ---
 
 Results: <br />
-Total files: 74 <br />
+Total files: 72 <br />
 Total files with extension found: 1 <br />
 Total files with extension and verification found: 1
 
